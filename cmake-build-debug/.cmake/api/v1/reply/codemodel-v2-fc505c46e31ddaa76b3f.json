@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Bug_Life_C__::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Bug_Life_C__-Debug-24f3521f474672f27a39.json",
+					"jsonFile" : "target-Bug_Life_C__-Debug-e566dd2030ba9eda3b85.json",
 					"name" : "Bug_Life_C__",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Asus/CLionProjects/Bug_Life_C++/cmake-build-debug",
-		"source" : "C:/Users/Asus/CLionProjects/Bug_Life_C++"
+		"build" : "C:/Users/Asus/CLionProjects/Bug_Life/cmake-build-debug",
+		"source" : "C:/Users/Asus/CLionProjects/Bug_Life"
 	},
 	"version" : 
 	{
