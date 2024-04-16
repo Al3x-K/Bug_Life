@@ -11,29 +11,38 @@
 
 using namespace std;
 
+enum class Direction {North, East, South, West};
+
 class Bug {
+protected:
     int id;
     pair<int, int> position;
-    int direction;
+    Direction direction;
     int size;
     bool alive;
     list<pair<int, int>> path;
 
 public:
-    Bug(int id = 0, pair<int, int> position = {0,0}, int direction = 1, int size = 0, bool alive = true, list<pair<int, int>> path = {});
+    Bug(int id, int x, int y, Direction direction, int size);
+    virtual ~Bug(); //Destructor
+
     int getId() const;
     pair<int, int> getPosition() const;
-    int getDirection() const;
+    Direction getDirection() const;
     int getSize() const;
-    bool checkIfAlive() const;
+    bool isAlive() const;
     list<pair<int, int>> getPath() const;
 
     void setId(int bugId);
     void setPosition(pair<int, int> p);
-    void setDirection(int d);
+    void setDirection(Direction d);
     void setSize(int s);
-    void setStatus(bool alive);
     void addToPath();
+
+    void kill();
+    void resurrect();
+    virtual void move() = 0;
+    bool isWayBlocked();
 };
 
 
