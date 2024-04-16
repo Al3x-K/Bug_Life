@@ -55,9 +55,9 @@ void Bug::setSize(int s)
     this -> size = s;
 }
 
-void Bug::addToPath()
+void Bug::addToPath(int x, int y)
 {
-    path.push_back(this->getPosition());
+    path.push_back(make_pair(x,y));
 }
 
 //Different methods

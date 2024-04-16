@@ -37,7 +37,7 @@ public:
     void setPosition(pair<int, int> p);
     void setDirection(Direction d);
     void setSize(int s);
-    void addToPath();
+    void addToPath(int x, int y);
 
     void kill();
     void resurrect();

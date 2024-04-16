@@ -36,5 +36,5 @@ void Crawler::move()
         direction = static_cast<Direction>(rand() % 4);
     }
 
-    addToPath();
+    addToPath(position.first, position.second);
 }
