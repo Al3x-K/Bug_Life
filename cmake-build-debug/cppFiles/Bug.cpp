@@ -4,8 +4,8 @@
 
 #include "../headerFiles/Bug.h"
 
-Bug::Bug(int id, int x, int y, Direction direction, int size)
-: id(id),position(make_pair(x,y)),direction(direction), size(size), alive(true) {}
+Bug::Bug(int id, int x, int y, Direction direction, int size, char type)
+: id(id),position(make_pair(x,y)),direction(direction), size(size), alive(true), type(type) {}
 
 //GET METHODS
 int Bug::getId() const
@@ -26,6 +26,11 @@ Direction Bug::getDirection() const
 int Bug::getSize() const
 {
     return size;
+}
+
+char Bug::getType() const
+{
+    return type;
 }
 
 list<pair<int, int>> Bug::getPath() const
@@ -59,6 +64,8 @@ void Bug::addToPath(int x, int y)
 {
     path.push_back(make_pair(x,y));
 }
+
+
 
 //Different methods
 bool Bug::isAlive() const

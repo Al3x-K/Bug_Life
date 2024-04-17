@@ -21,9 +21,10 @@ protected:
     int size;
     bool alive;
     list<pair<int, int>> path;
+    char type;
 
 public:
-    Bug(int id, int x, int y, Direction direction, int size);
+    Bug(int id, int x, int y, Direction direction, int size, char type);
     virtual ~Bug(){}; //Destructor
 
     int getId() const;
@@ -31,6 +32,7 @@ public:
     Direction getDirection() const;
     int getSize() const;
     bool isAlive() const;
+    char getType() const;
     list<pair<int, int>> getPath() const;
 
     void setId(int bugId);

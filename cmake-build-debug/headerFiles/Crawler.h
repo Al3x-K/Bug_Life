@@ -9,8 +9,9 @@
 #include "Bug.h"
 
 class Crawler : public Bug{
+
 public:
-    Crawler(int id, int x, int y, Direction direction, int size);
+    Crawler(int id, int x, int y, Direction direction, int size, char type);
     virtual ~Crawler(){}; //Destructor
 
     void move() override;

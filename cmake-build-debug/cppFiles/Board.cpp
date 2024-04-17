@@ -71,7 +71,7 @@ void Board::initializeBugVector()
 
         if(type == 'C')
         {
-            bugVector.push_back(new Crawler(id, x, y, direction, size));
+            bugVector.push_back(new Crawler(id, x, y, direction, size, type));
         }
         else if(type =='H')
         {
@@ -80,7 +80,7 @@ void Board::initializeBugVector()
                 //throws an error if the value for hopLength cannot be successfully streamed
                 cerr << "Error: Invalid line in bugs.txt" << endl;
             }
-            bugVector.push_back(new Hopper(id, x, y, direction, size, hopLength));
+            bugVector.push_back(new Hopper(id, x, y, direction, size, type, hopLength));
         }
         else
         {
@@ -94,26 +94,34 @@ void Board::displayAllBugs()
 {
     for(Bug* bug : bugVector)
     {
-        cout << "Bug ID: " << bug->getId() << endl;
-        cout << "Position: (" << bug->getPosition().first << ", " << bug->getPosition().second << ")" << endl;
-        cout << "Direction: ";
+        cout <<  bug->getId();
+        if(bug->getType() == 'C')
+        {
+            cout << " Crawler ";
+        }
+        else if(bug->getType() =='H')
+        {
+            cout << " Hopper ";
+        }
+        cout << "(" << bug->getPosition().first << "," << bug->getPosition().second << ") ";
+        cout << bug->getSize();
         switch (bug->getDirection())
         {
             case Direction::North:
-                cout << "North" << endl;
+                cout << " North ";
                 break;
             case Direction::East:
-                cout << "East" << endl;
+                cout << " East ";
                 break;
             case Direction::South:
-                cout << "South" << endl;
+                cout << " South ";
                 break;
             case Direction::West:
-                cout << "West" << endl;
+                cout << " West ";
                 break;
         }
-        cout << "Size: " << bug->getSize() << endl;
-        cout << (bug->isAlive() ? "Status: Alive" : "Status: Dead") << endl;
+
+        cout << (bug->isAlive() ? "Alive" : "Dead");
         cout << endl;
     }
 }

@@ -7,8 +7,8 @@
 #include <cstdlib> //For rand
 #include <ctime> //For srand
 
-Hopper::Hopper(int id, int x, int y, Direction direction, int size, int hopLength)
-: Bug(id, x, y, direction, size), hopLength(hopLength)
+Hopper::Hopper(int id, int x, int y, Direction direction, int size, char type, int hopLength)
+: Bug(id, x, y, direction, size, type), hopLength(hopLength)
 {
     srand(time(nullptr));
 }
