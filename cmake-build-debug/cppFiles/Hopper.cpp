@@ -3,6 +3,7 @@
 //
 
 #include "../headerFiles/Hopper.h"
+#include "../headerFiles/Bug.h"
 #include <cstdlib> //For rand
 #include <ctime> //For srand
 
@@ -12,7 +13,7 @@ Hopper::Hopper(int id, int x, int y, Direction direction, int size, int hopLengt
     srand(time(nullptr));
 }
 
-Hopper::~Hopper() {}
+//Hopper::~Hopper() {}
 
 void Hopper::move()
 {

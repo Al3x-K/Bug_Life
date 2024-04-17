@@ -14,7 +14,7 @@ private:
 
 public:
     Hopper(int id, int x, int y, Direction direction, int size, int hopLength);
-    ~Hopper(); //Destructor
+    virtual ~Hopper(){}; //Destructor
 
     void move() override;
 

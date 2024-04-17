@@ -24,7 +24,7 @@ protected:
 
 public:
     Bug(int id, int x, int y, Direction direction, int size);
-    virtual ~Bug(); //Destructor
+    virtual ~Bug(){}; //Destructor
 
     int getId() const;
     pair<int, int> getPosition() const;

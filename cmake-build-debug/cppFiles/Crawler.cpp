@@ -13,7 +13,7 @@ Crawler::Crawler(int id, int x, int y, Direction direction, int size)
     srand(static_cast<unsigned int>(time(nullptr)));
 }
 
-Crawler::~Crawler() {}
+//Crawler::~Crawler() {}
 
 void Crawler::move()
 {

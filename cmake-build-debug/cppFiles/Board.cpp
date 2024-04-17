@@ -8,7 +8,10 @@
 #include <fstream>
 #include <sstream>
 
-Board::Board() {}
+Board::Board()
+{
+
+}
 
 Board::~Board()
 {

@@ -11,7 +11,7 @@
 class Crawler : public Bug{
 public:
     Crawler(int id, int x, int y, Direction direction, int size);
-    virtual ~Crawler(); //Destructor
+    virtual ~Crawler(){}; //Destructor
 
     void move() override;
 };
