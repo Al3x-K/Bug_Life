@@ -9,4 +9,6 @@ add_executable(Bug_Life_C__ main.cpp
         cmake-build-debug/cppFiles/Crawler.cpp
         cmake-build-debug/headerFiles/Crawler.h
         cmake-build-debug/cppFiles/Hopper.cpp
-        cmake-build-debug/headerFiles/Hopper.h)
+        cmake-build-debug/headerFiles/Hopper.h
+        cmake-build-debug/cppFiles/Board.cpp
+        cmake-build-debug/headerFiles/Board.h)
