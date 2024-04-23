@@ -8,13 +8,14 @@ int main()
 
     board.initializeBugVector();
     board.displayAllBugs();
-  
+    cout << endl;
     board.displayAllCells();
     cout << endl;
     board.tap();
     board.displayAllBugs();
-
-    board.displayAllCells();
+    cout << endl;
+    board.displayLifeHistory();
+    //board.displayAllCells();
     cout << endl;
     board.findBug(101);
     return 0;

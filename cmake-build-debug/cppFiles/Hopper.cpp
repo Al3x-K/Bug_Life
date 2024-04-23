@@ -45,7 +45,6 @@ void Hopper::move()
     if(nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10)
     {
         position = make_pair(nextX,nextY); //update position
-        addToPath(nextX,nextY); //add it to the path
     }
     else if(nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10)
     {
@@ -74,6 +73,5 @@ void Hopper::move()
 
         move(); //attempt to move in new direction
     }
-
-    addToPath(position.first, position.second);
+    addToPath(nextX,nextY);
 }

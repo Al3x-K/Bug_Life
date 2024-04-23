@@ -22,6 +22,7 @@ protected:
     bool alive;
     list<pair<int, int>> path;
     char type;
+    int eatenBy = -1;
 
 public:
     Bug(int id, int x, int y, Direction direction, int size, char type);
@@ -34,12 +35,14 @@ public:
     bool isAlive() const;
     char getType() const;
     list<pair<int, int>> getPath() const;
+    int getEatenBy() const;
 
     void setId(int bugId);
     void setPosition(pair<int, int> p);
     void setDirection(Direction d);
     void setSize(int s);
     void addToPath(int x, int y);
+    void setEatenBy(int id);
 
     void kill();
     void resurrect();

@@ -82,7 +82,6 @@ void Board::initializeBugVector()
                 cerr << "Error: Invalid line in bugs.txt" << endl;
             }
             bugVector.push_back(new Hopper(id, x, y, direction, size, type, hopLength));
-            //cells[make_pair(x,y)].push_back(new Hopper(id, x, y, direction, size, type, hopLength));
         }
         else
         {
@@ -217,8 +216,9 @@ void Board::updateCells()
     {
         //get the position of the bug
         pair<int,int> position = bug->getPosition();
-
+        bug->addToPath(position.first,position.second);
         //calculate the cell coordinates based on the bug's position
+        //max(0, min(position.*,9)) ensures that the position is within the bounds of the board
         int cellX = max(0, min(position.first,9));
         int cellY = max(0, min(position.second,9));
 
@@ -233,4 +233,57 @@ void Board::tap()
     {
         bug->move();
     }
+}
+
+void Board::displayLifeHistory()
+{
+    for(Bug* bug : bugVector)
+    {
+        cout << bug->getId() << " " << (dynamic_cast<Crawler*>(bug) ? "Crawler" : "Hopper") << " Path: ";
+        const list<pair<int,int>>& path = bug->getPath();
+        if(!path.empty())
+        {
+            //print each position in the bug's path
+            for(auto it = path.begin(); it != path.end(); ++it)
+            {
+                cout << "(" << it->first << ", " << it->second << ")" << " ";
+                if(next(it) != path.end())
+                {
+                    cout << ",";
+                }
+            }
+        }
+        else
+        {
+            cout << "No path recorded";
+        }
+        if(!bug->isAlive())
+        {
+            cout << "Eaten by " << bug->getEatenBy();
+        }
+        else
+        {
+            cout << "Alive!";
+        }
+        cout << endl;
+    }
+}
+
+void Board::safeLifeHistoryToFile()
+{
+    stringstream file;
+    file << "“bugs_life_history_date_time.out";
+    ofstream  outfile(file.str());
+    if(!outfile.is_open())
+    {
+        cerr <<"Error: Unable to open file " << file.str() << " for writing." << endl;
+        return;
+    }
+    //ASK DEREK ABOUT THAT
+    //AND ABOUT THE HOPPER CLASS
+    //outfile << displayLifeHistory();
+
+    outfile.close();
+
+    cout << "Life history of all bugs has been written to file: " << file.str() << endl;
 }

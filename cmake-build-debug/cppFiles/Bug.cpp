@@ -38,6 +38,11 @@ list<pair<int, int>> Bug::getPath() const
     return path;
 }
 
+int Bug::getEatenBy() const
+{
+    return eatenBy;
+}
+
 
 //SET METHODS
 void Bug::setId(int bugId)
@@ -65,6 +70,10 @@ void Bug::addToPath(int x, int y)
     path.push_back(make_pair(x,y));
 }
 
+void Bug::setEatenBy(int id)
+{
+    eatenBy = id;
+}
 
 
 //Different methods
