@@ -25,6 +25,7 @@ public:
     void initializeBugVector();
     void displayAllBugs();
     void displayAllCells();
+    void updateCells();
     void findBug(int bugId);
 
     void tap();

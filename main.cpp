@@ -7,12 +7,15 @@ int main()
     Board board;
 
     board.initializeBugVector();
-    //board.displayAllBugs();
-    //board.displayAllCells();
+    board.displayAllBugs();
+  
+    board.displayAllCells();
     cout << endl;
-    //board.tap();
-    //board.displayAllBugs();
-    //board.displayAllCells();
+    board.tap();
+    board.displayAllBugs();
+
+    board.displayAllCells();
+    cout << endl;
     board.findBug(101);
     return 0;
 }

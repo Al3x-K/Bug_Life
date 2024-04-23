@@ -3,7 +3,6 @@
 //
 
 #include "../headerFiles/Hopper.h"
-#include "../headerFiles/Bug.h"
 #include <cstdlib> //For rand
 #include <ctime> //For srand
 
@@ -42,7 +41,6 @@ void Hopper::move()
             nextX -= hopLength;
             break;
     }
-
     //Check if the next position is within boundaries of the board
     if(nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10)
     {
@@ -51,7 +49,21 @@ void Hopper::move()
     }
     else if(nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10)
     {
-        //bug skacze tylko o 1, odbija sie i laduje na polu kolo sciany
+        switch (direction)
+        {
+            case Direction::North:
+                nextY = 0;
+                break;
+            case Direction::East:
+                nextX = 9;
+                break;
+            case Direction::South:
+                nextY = 9;
+                break;
+            case Direction::West:
+                nextX = 0;
+                break;
+        }
     }
     else
     {

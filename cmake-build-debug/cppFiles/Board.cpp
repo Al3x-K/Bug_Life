@@ -172,6 +172,7 @@ void Board::findBug(int bugId)
 
 void Board::displayAllCells()
 {
+    updateCells();
     for (int y = 0; y < 10; ++y) //rows
     {
         for (int x = 0; x < 10; ++x) //columns
@@ -206,6 +207,23 @@ void Board::displayAllCells()
                 cout << std::endl;
             }
         }
+    }
+}
+void Board::updateCells()
+{
+    cells.clear(); //clear the map before updating
+
+    for(Bug* bug : bugVector)
+    {
+        //get the position of the bug
+        pair<int,int> position = bug->getPosition();
+
+        //calculate the cell coordinates based on the bug's position
+        int cellX = max(0, min(position.first,9));
+        int cellY = max(0, min(position.second,9));
+
+        //insert the bug into corresponding cell in the cells map
+        cells[{cellX,cellY}].push_back(bug);
     }
 }
 
