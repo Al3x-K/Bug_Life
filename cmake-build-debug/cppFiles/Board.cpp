@@ -235,55 +235,36 @@ void Board::tap()
     }
 }
 
-void Board::displayLifeHistory()
+void Board::displayLifeHistory(ostream& out)
 {
     for(Bug* bug : bugVector)
     {
-        cout << bug->getId() << " " << (dynamic_cast<Crawler*>(bug) ? "Crawler" : "Hopper") << " Path: ";
+        out << bug->getId() << " " << (dynamic_cast<Crawler*>(bug) ? "Crawler" : "Hopper") << " Path: ";
         const list<pair<int,int>>& path = bug->getPath();
         if(!path.empty())
         {
             //print each position in the bug's path
             for(auto it = path.begin(); it != path.end(); ++it)
             {
-                cout << "(" << it->first << ", " << it->second << ")" << " ";
+                out << "(" << it->first << "," << it->second << ")" << "";
                 if(next(it) != path.end())
                 {
-                    cout << ",";
+                    out << ",";
                 }
             }
         }
         else
         {
-            cout << "No path recorded";
+            out << "No path recorded";
         }
         if(!bug->isAlive())
         {
-            cout << "Eaten by " << bug->getEatenBy();
+            out << " Eaten by " << bug->getEatenBy();
         }
         else
         {
-            cout << "Alive!";
+            out << " Alive!";
         }
-        cout << endl;
+        out << endl;
     }
-}
-
-void Board::safeLifeHistoryToFile()
-{
-    stringstream file;
-    file << "“bugs_life_history_date_time.out";
-    ofstream  outfile(file.str());
-    if(!outfile.is_open())
-    {
-        cerr <<"Error: Unable to open file " << file.str() << " for writing." << endl;
-        return;
-    }
-    //ASK DEREK ABOUT THAT
-    //AND ABOUT THE HOPPER CLASS
-    //outfile << displayLifeHistory();
-
-    outfile.close();
-
-    cout << "Life history of all bugs has been written to file: " << file.str() << endl;
 }

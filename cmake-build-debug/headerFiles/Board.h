@@ -27,8 +27,7 @@ public:
     void displayAllCells();
     void updateCells();
     void findBug(int bugId);
-    void displayLifeHistory();
-    void safeLifeHistoryToFile();
+    void displayLifeHistory(ostream& out);
 
     void tap();
 
