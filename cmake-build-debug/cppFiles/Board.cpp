@@ -72,6 +72,7 @@ void Board::initializeBugVector()
         if(type == 'C')
         {
             bugVector.push_back(new Crawler(id, x, y, direction, size, type));
+            //cells[make_pair(x,y)].push_back(new Crawler(id, x, y, direction, size, type));
         }
         else if(type =='H')
         {
@@ -81,6 +82,7 @@ void Board::initializeBugVector()
                 cerr << "Error: Invalid line in bugs.txt" << endl;
             }
             bugVector.push_back(new Hopper(id, x, y, direction, size, type, hopLength));
+            //cells[make_pair(x,y)].push_back(new Hopper(id, x, y, direction, size, type, hopLength));
         }
         else
         {
@@ -126,23 +128,91 @@ void Board::displayAllBugs()
     }
 }
 
-void Board::displayAllCells()
+void Board::findBug(int bugId)
 {
-    //goes throught each cell in the cells map and checks if there is a bug (or more) or nah
-    for(const auto& cell : cells)
+    bool bugFound = false;
+
+    //Go through each bug in the vector
+    for(Bug* bug : bugVector)
     {
-        cout << "Cell (" << cell.first.first << ", " << cell.first.second << "): ";
-        if(cell.second.empty())
+        if(bug->getId() == bugId)
         {
-            cout << "empty" << endl;
-        }
-        else
-        {
-            for(Bug* bug : cell.second)
+            //bug with specified id is found
+            bugFound = true;
+            cout <<  bug->getId() << " ";
+            cout << (dynamic_cast<Crawler*>(bug) ? "Crawler" : "Hopper") << " ";
+            cout << "(" << bug->getPosition().first << "," << bug->getPosition().second << ") ";
+            cout << bug->getSize();
+            switch (bug->getDirection())
             {
-                cout << "Bug ID: " << bug->getId() << ", ";
+                case Direction::North:
+                    cout << " North ";
+                    break;
+                case Direction::East:
+                    cout << " East ";
+                    break;
+                case Direction::South:
+                    cout << " South ";
+                    break;
+                case Direction::West:
+                    cout << " West ";
+                    break;
             }
+
+            cout << (bug->isAlive() ? "Alive" : "Dead");
             cout << endl;
         }
+        break;
+    }
+    if(!bugFound)
+    {
+        cout << "Bug " << bugId << " not found." << endl;
+    }
+}
+
+void Board::displayAllCells()
+{
+    for (int y = 0; y < 10; ++y) //rows
+    {
+        for (int x = 0; x < 10; ++x) //columns
+        {
+            pair<int, int> cellCoordinates = make_pair(x, y); //coordinates of the current cell
+            cout << "(" << x << "," << y << "): ";
+
+            //attempt to locate the current cells coordinates in the map
+            //if the cell is found, it will point to the corresponding entry
+            auto it = cells.find(cellCoordinates);
+            //no cell in the map or no bugs in the cell
+            if (it == cells.end() || it->second.empty())
+            {
+                cout << "empty" << std::endl;
+            }
+            else
+            {
+                bool firstBug = true; //used just for formatting
+                for (Bug *bug: it->second)
+                {
+                    if (!firstBug)
+                    {
+                        cout << ", ";
+                    }
+                    cout << (dynamic_cast<Crawler *>(bug) ? "Crawler" : "Hopper") << " " << bug->getId();
+                    //dynamic cast is used for the type conversion of polymorphic types
+                    //aka the types with at least one virtual function
+                    //checks if a pointer or reference of base class can be safely
+                    //converted to a pointer or reference to a derived class
+                    firstBug = false;
+                }
+                cout << std::endl;
+            }
+        }
+    }
+}
+
+void Board::tap()
+{
+    for(Bug* bug : bugVector)
+    {
+        bug->move();
     }
 }

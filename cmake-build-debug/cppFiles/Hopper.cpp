@@ -21,6 +21,11 @@ void Hopper::move()
     int nextX = position.first;
     int nextY = position.second;
 
+    while(isWayBlocked())
+    {
+        direction = static_cast<Direction>(rand() % 4);
+    }
+
     switch(direction)
     {
         case Direction::North:
@@ -32,6 +37,7 @@ void Hopper::move()
         case Direction::South:
             nextY += hopLength;
             break;
+
         case Direction::West:
             nextX -= hopLength;
             break;
@@ -43,13 +49,19 @@ void Hopper::move()
         position = make_pair(nextX,nextY); //update position
         addToPath(nextX,nextY); //add it to the path
     }
+    else if(nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10)
+    {
+        //bug skacze tylko o 1, odbija sie i laduje na polu kolo sciany
+    }
     else
     {
-        cout << "Bug hit the edge of the board!" << endl;
+        //cout << "Bug hit the edge of the board!" << endl;
 
         int newDirection = rand() % 4; //generate new direction
         direction = static_cast<Direction>(newDirection); //update direction based on the random value
 
         move(); //attempt to move in new direction
     }
+
+    addToPath(position.first, position.second);
 }
