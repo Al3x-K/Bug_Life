@@ -169,12 +169,12 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "cmake-build-debug/Dizzler.cpp",
+			"path" : "cmake-build-debug/cppFiles/Dizzler.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "cmake-build-debug/Dizzler.h",
+			"path" : "cmake-build-debug/headerFiles/Dizzler.h",
 			"sourceGroupIndex" : 1
 		}
 	],

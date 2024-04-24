@@ -6,8 +6,8 @@
 #include <cstdlib> //For rand
 #include <ctime>  //For srand
 
-Dizzler::Dizzler(int id, int x, int y, Direction direction, int size, char type, bool dizzy)
-        : Bug(id,x,y,direction,size, type), dizzy(dizzy)
+Dizzler::Dizzler(int id, int x, int y, Direction direction, int size, char type)
+        : Bug(id,x,y,direction,size, type)
 {
     //Seed the random number generator
     srand(static_cast<unsigned int>(time(nullptr)));
@@ -15,10 +15,7 @@ Dizzler::Dizzler(int id, int x, int y, Direction direction, int size, char type,
 
 void Dizzler::move()
 {
-    while(isWayBlocked())
-    {
-        direction = static_cast<Direction>(rand() % 4);
-    }
+    direction = static_cast<Direction>(rand() % 4);
     switch (direction)
     {
         case Direction::North:

@@ -7,10 +7,10 @@
 #include "Bug.h"
 
 class Dizzler : public Bug {
-private: 
+private:
     bool dizzy = false;
 public:
-    Dizzler(int id, int x, int y, Direction direction, int size, char type, bool dizzy);
+    Dizzler(int id, int x, int y, Direction direction, int size, char type);
     virtual ~Dizzler(){}; //Destructor
 
     void move() override;

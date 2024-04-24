@@ -8,6 +8,7 @@
 #include "Bug.h"
 #include "../headerFiles/Crawler.h"
 #include "../headerFiles/Hopper.h"
+#include "../headerFiles/Dizzler.h"
 
 #include <vector>
 #include <map>

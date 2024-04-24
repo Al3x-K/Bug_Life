@@ -79,11 +79,11 @@ build CMakeFiles/Bug_Life_C__.dir/cppFiles/Board.cpp.obj: CXX_COMPILER__Bug_Life
   OBJECT_DIR = CMakeFiles\Bug_Life_C__.dir
   OBJECT_FILE_DIR = CMakeFiles\Bug_Life_C__.dir\cppFiles
 
-build CMakeFiles/Bug_Life_C__.dir/Dizzler.cpp.obj: CXX_COMPILER__Bug_Life_C___unscanned_Debug C$:/Users/Asus/CLionProjects/Bug_Life/cmake-build-debug/Dizzler.cpp || cmake_object_order_depends_target_Bug_Life_C__
-  DEP_FILE = CMakeFiles\Bug_Life_C__.dir\Dizzler.cpp.obj.d
+build CMakeFiles/Bug_Life_C__.dir/cppFiles/Dizzler.cpp.obj: CXX_COMPILER__Bug_Life_C___unscanned_Debug C$:/Users/Asus/CLionProjects/Bug_Life/cmake-build-debug/cppFiles/Dizzler.cpp || cmake_object_order_depends_target_Bug_Life_C__
+  DEP_FILE = CMakeFiles\Bug_Life_C__.dir\cppFiles\Dizzler.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\Bug_Life_C__.dir
-  OBJECT_FILE_DIR = CMakeFiles\Bug_Life_C__.dir
+  OBJECT_FILE_DIR = CMakeFiles\Bug_Life_C__.dir\cppFiles
 
 
 # =============================================================================
@@ -93,7 +93,7 @@ build CMakeFiles/Bug_Life_C__.dir/Dizzler.cpp.obj: CXX_COMPILER__Bug_Life_C___un
 #############################################
 # Link the executable Bug_Life_C__.exe
 
-build Bug_Life_C__.exe: CXX_EXECUTABLE_LINKER__Bug_Life_C___Debug CMakeFiles/Bug_Life_C__.dir/main.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Bug.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Crawler.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Hopper.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Board.cpp.obj CMakeFiles/Bug_Life_C__.dir/Dizzler.cpp.obj
+build Bug_Life_C__.exe: CXX_EXECUTABLE_LINKER__Bug_Life_C___Debug CMakeFiles/Bug_Life_C__.dir/main.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Bug.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Crawler.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Hopper.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Board.cpp.obj CMakeFiles/Bug_Life_C__.dir/cppFiles/Dizzler.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Bug_Life_C__.dir

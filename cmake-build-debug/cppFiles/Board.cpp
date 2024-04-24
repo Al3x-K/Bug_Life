@@ -4,6 +4,7 @@
 
 #include "../headerFiles/Board.h"
 
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -71,7 +72,15 @@ void Board::initializeBugVector()
 
         if(type == 'C')
         {
-            bugVector.push_back(new Crawler(id, x, y, direction, size, type));
+            Bug *crawler = new Crawler(id, x, y, direction, size, type);
+            bugVector.push_back(crawler);
+            crawler->addToPath(x,y);
+        }
+        else if(type == 'D')
+        {
+            Bug *dizzler = new Dizzler(id,x,y,direction,size,type);
+            bugVector.push_back(dizzler);
+            dizzler->addToPath(x,y);
         }
         else if(type =='H')
         {
@@ -80,7 +89,9 @@ void Board::initializeBugVector()
                 //throws an error if the value for hopLength cannot be successfully streamed
                 cerr << "Error: Invalid line in bugs.txt" << endl;
             }
-            bugVector.push_back(new Hopper(id, x, y, direction, size, type, hopLength));
+            Bug *hopper = new Hopper(id, x, y, direction, size, type, hopLength);
+            bugVector.push_back(hopper);
+            hopper->addToPath(x,y);
         }
         else
         {
@@ -102,6 +113,10 @@ void Board::displayAllBugs()
         else if(bug->getType() =='H')
         {
             cout << " Hopper ";
+        }
+        else if(bug->getType() =='D')
+        {
+            cout << " Dizzler ";
         }
         cout << "(" << bug->getPosition().first << "," << bug->getPosition().second << ") ";
         cout << bug->getSize();
@@ -138,6 +153,10 @@ void Board::findBug(int bugId)
             //bug with specified id is found
             bugFound = true;
             cout <<  bug->getId() << " ";
+            if(dynamic_cast<Dizzler*>(bug))
+            {
+                cout <<"Dizzler ";
+            }
             cout << (dynamic_cast<Crawler*>(bug) ? "Crawler" : "Hopper") << " ";
             cout << "(" << bug->getPosition().first << "," << bug->getPosition().second << ") ";
             cout << bug->getSize();
@@ -170,7 +189,6 @@ void Board::findBug(int bugId)
 
 void Board::displayAllCells()
 {
-    updateCells();
 
     for (int y = 0; y < 10; ++y) //rows
     {
@@ -195,9 +213,14 @@ void Board::displayAllCells()
                     {
                         cout << ", ";
                     }
-
-                    cout << (dynamic_cast<Crawler *>(bug) ? "Crawler" : "Hopper") << " " << bug->getId();
-
+                    if(dynamic_cast<Dizzler*>(bug))
+                    {
+                        cout <<"Dizzler " << bug->getId();
+                    }
+                    else
+                    {
+                        cout << (dynamic_cast<Crawler *>(bug) ? "Crawler" : "Hopper") << " " << bug->getId();
+                    }
                     //dynamic cast is used for the type conversion of polymorphic types
                     //aka the types with at least one virtual function
                     //checks if a pointer or reference of base class can be safely
@@ -210,24 +233,7 @@ void Board::displayAllCells()
         }
     }
 }
-void Board::updateCells()
-{
-    cells.clear(); //clear the map before updating
 
-    for(Bug* bug : bugVector)
-    {
-        //get the position of the bug
-        pair<int,int> position = bug->getPosition();
-        bug->addToPath(position.first,position.second);
-        //calculate the cell coordinates based on the bug's position
-        //max(0, min(position.*,9)) ensures that the position is within the bounds of the board
-        int cellX = max(0, min(position.first,9));
-        int cellY = max(0, min(position.second,9));
-
-        //insert the bug into corresponding cell in the cells map
-        cells[{cellX,cellY}].push_back(bug);
-    }
-}
 
 void Board::tap()
 {
@@ -240,11 +246,18 @@ void Board::tap()
 void Board::displayLifeHistory(ostream& out) {
     for (Bug *bug: bugVector)
     {
-        out << bug->getId() << " " << (dynamic_cast<Crawler *>(bug) ? "Crawler" : "Hopper") << " Path: ";
+        if(dynamic_cast<Dizzler*>(bug))
+        {
+            out << bug->getId() << " Dizzler" << " Path: ";
+        }
+        else
+        {
+            out << bug->getId() << " " << (dynamic_cast<Crawler *>(bug) ? "Crawler" : "Hopper") << " Path: ";
+        }
         const list<pair<int, int>> &path = bug->getPath();
         if (!path.empty()) {
             //print each position in the bug's path
-            for (auto it = path.begin(); it != path.end(); ++it) {
+            for (auto it = path.begin(); it != path.end(); it++) {
                 out << "(" << it->first << "," << it->second << ")" << "";
                 if (next(it) != path.end()) {
                     out << ",";

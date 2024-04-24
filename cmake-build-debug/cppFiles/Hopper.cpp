@@ -46,32 +46,18 @@ void Hopper::move()
     {
         position = make_pair(nextX,nextY); //update position
     }
-    else if(nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10)
-    {
-        switch (direction)
-        {
-            case Direction::North:
-                nextY = 0;
-                break;
-            case Direction::East:
-                nextX = 9;
-                break;
-            case Direction::South:
-                nextY = 9;
-                break;
-            case Direction::West:
-                nextX = 0;
-                break;
-        }
-    }
     else
     {
-        //cout << "Bug hit the edge of the board!" << endl;
+        if(nextX < 0)
+            nextX=0;
+        else if(nextX>9)
+            nextX = 9;
+        if(nextY  < 0)
+            nextY=0;
+        else if(nextY>9)
+            nextY = 9;
 
-        int newDirection = rand() % 4; //generate new direction
-        direction = static_cast<Direction>(newDirection); //update direction based on the random value
-
-        move(); //attempt to move in new direction
+        position = make_pair(nextX,nextY); //update position
     }
     addToPath(nextX,nextY);
 }
