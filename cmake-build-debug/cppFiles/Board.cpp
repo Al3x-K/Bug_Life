@@ -72,7 +72,6 @@ void Board::initializeBugVector()
         if(type == 'C')
         {
             bugVector.push_back(new Crawler(id, x, y, direction, size, type));
-            //cells[make_pair(x,y)].push_back(new Crawler(id, x, y, direction, size, type));
         }
         else if(type =='H')
         {
@@ -172,6 +171,7 @@ void Board::findBug(int bugId)
 void Board::displayAllCells()
 {
     updateCells();
+
     for (int y = 0; y < 10; ++y) //rows
     {
         for (int x = 0; x < 10; ++x) //columns
@@ -179,13 +179,12 @@ void Board::displayAllCells()
             pair<int, int> cellCoordinates = make_pair(x, y); //coordinates of the current cell
             cout << "(" << x << "," << y << "): ";
 
-            //attempt to locate the current cells coordinates in the map
             //if the cell is found, it will point to the corresponding entry
             auto it = cells.find(cellCoordinates);
             //no cell in the map or no bugs in the cell
             if (it == cells.end() || it->second.empty())
             {
-                cout << "empty" << std::endl;
+                cout << "empty" << endl;
             }
             else
             {
@@ -196,15 +195,18 @@ void Board::displayAllCells()
                     {
                         cout << ", ";
                     }
+
                     cout << (dynamic_cast<Crawler *>(bug) ? "Crawler" : "Hopper") << " " << bug->getId();
+
                     //dynamic cast is used for the type conversion of polymorphic types
                     //aka the types with at least one virtual function
                     //checks if a pointer or reference of base class can be safely
                     //converted to a pointer or reference to a derived class
                     firstBug = false;
                 }
-                cout << std::endl;
+                cout << endl;
             }
+
         }
     }
 }
@@ -235,34 +237,25 @@ void Board::tap()
     }
 }
 
-void Board::displayLifeHistory(ostream& out)
-{
-    for(Bug* bug : bugVector)
+void Board::displayLifeHistory(ostream& out) {
+    for (Bug *bug: bugVector)
     {
-        out << bug->getId() << " " << (dynamic_cast<Crawler*>(bug) ? "Crawler" : "Hopper") << " Path: ";
-        const list<pair<int,int>>& path = bug->getPath();
-        if(!path.empty())
-        {
+        out << bug->getId() << " " << (dynamic_cast<Crawler *>(bug) ? "Crawler" : "Hopper") << " Path: ";
+        const list<pair<int, int>> &path = bug->getPath();
+        if (!path.empty()) {
             //print each position in the bug's path
-            for(auto it = path.begin(); it != path.end(); ++it)
-            {
+            for (auto it = path.begin(); it != path.end(); ++it) {
                 out << "(" << it->first << "," << it->second << ")" << "";
-                if(next(it) != path.end())
-                {
+                if (next(it) != path.end()) {
                     out << ",";
                 }
             }
-        }
-        else
-        {
+        } else {
             out << "No path recorded";
         }
-        if(!bug->isAlive())
-        {
+        if (!bug->isAlive()) {
             out << " Eaten by " << bug->getEatenBy();
-        }
-        else
-        {
+        } else {
             out << " Alive!";
         }
         out << endl;

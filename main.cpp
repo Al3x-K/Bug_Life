@@ -13,13 +13,20 @@ int main()
     board.displayAllCells();
     cout << endl;
     board.tap();
+    board.displayAllCells();
+    board.tap();
+    board.displayAllCells();
+    board.tap();
+    board.displayAllCells();
+    board.tap();
+    board.displayAllCells();
     board.displayAllBugs();
     cout << endl;
     board.displayLifeHistory(cout);
-    ofstream out("bugs_life_history_date_time.out.txt");
-    board.displayLifeHistory(out);
+    //ofstream out("bugs_life_history_date_time.out.txt");
+    //board.displayLifeHistory(out);
     //board.displayAllCells();
     cout << endl;
-    board.findBug(101);
+    //board.findBug(101);
     return 0;
 }

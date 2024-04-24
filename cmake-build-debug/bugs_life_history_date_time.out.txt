@@ -1,12 +1,13 @@
 101 Crawler Path: (0,0),(1,0) Alive!
 102 Hopper Path: (9,0),(7,0) Alive!
 103 Crawler Path: (9,9),(9,8) Alive!
-104 Crawler Path: (0,9),(1,9) Alive!
+104 Crawler Path: (0,9),(0,8) Alive!
 105 Crawler Path: (2,2),(2,1) Alive!
 106 Crawler Path: (7,2),(8,2) Alive!
-107 Hopper Path: (2,7),(2,4),(-1,7),(2,10),(2,10) Alive!
+107 Hopper Path: (2,7),(2,4),(2,10),(2,10) Alive!
 108 Hopper Path: (7,7),(3,7) Alive!
 109 Hopper Path: (4,4),(2,4) Alive!
 110 Crawler Path: (5,5),(6,5) Alive!
 111 Crawler Path: (4,5),(4,4) Alive!
 112 Hopper Path: (5,4),(5,6) Alive!
+113 Hopper Path: (6,4) Alive!

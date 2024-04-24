@@ -21,7 +21,6 @@ private:
 public:
     Board();
     ~Board();
-
     void initializeBugVector();
     void displayAllBugs();
     void displayAllCells();
