@@ -117,3 +117,4 @@ bool Bug::isWayBlocked()
     return false;
 }
 
+

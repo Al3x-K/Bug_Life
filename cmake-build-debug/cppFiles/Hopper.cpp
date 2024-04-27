@@ -19,45 +19,48 @@ void Hopper::move()
     //Calculate new position based on current direction and hop length
     int nextX = position.first;
     int nextY = position.second;
-
-    while(isWayBlocked())
+    if(this->alive)
     {
-        direction = static_cast<Direction>(rand() % 4);
-    }
+        while(isWayBlocked())
+        {
+            direction = static_cast<Direction>(rand() % 4);
+        }
 
-    switch(direction)
-    {
-        case Direction::North:
-            nextY -= hopLength;
-            break;
-        case Direction::East:
-            nextX += hopLength;
-            break;
-        case Direction::South:
-            nextY += hopLength;
-            break;
+        switch(direction)
+        {
+            case Direction::North:
+                nextY -= hopLength;
+                break;
+            case Direction::East:
+                nextX += hopLength;
+                break;
+            case Direction::South:
+                nextY += hopLength;
+                break;
 
-        case Direction::West:
-            nextX -= hopLength;
-            break;
-    }
-    //Check if the next position is within boundaries of the board
-    if(nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10)
-    {
-        position = make_pair(nextX,nextY); //update position
-    }
-    else
-    {
-        if(nextX < 0)
-            nextX=0;
-        else if(nextX>9)
-            nextX = 9;
-        if(nextY  < 0)
-            nextY=0;
-        else if(nextY>9)
-            nextY = 9;
+            case Direction::West:
+                nextX -= hopLength;
+                break;
+        }
+        //Check if the next position is within boundaries of the board
+        if(nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10)
+        {
+            position = make_pair(nextX,nextY); //update position
+        }
+        else
+        {
+            if(nextX < 0)
+                nextX=0;
+            else if(nextX>9)
+                nextX = 9;
+            if(nextY  < 0)
+                nextY=0;
+            else if(nextY>9)
+                nextY = 9;
 
-        position = make_pair(nextX,nextY); //update position
+            position = make_pair(nextX,nextY); //update position
+        }
+
+        addToPath(nextX,nextY);
     }
-    addToPath(nextX,nextY);
 }

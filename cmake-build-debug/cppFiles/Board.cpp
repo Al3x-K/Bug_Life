@@ -105,6 +105,7 @@ void Board::initializeBugVector()
 
 void Board::displayAllBugs()
 {
+    cout << endl;
     for(Bug* bug : bugVector)
     {
         cout <<  bug->getId();
@@ -193,6 +194,7 @@ void Board::findBug(int bugId)
 
 void Board::displayAllCells()
 {
+    cout << endl;
     for (int y = 0; y < 10; ++y) //rows
     {
         for (int x = 0; x < 10; ++x) //columns
@@ -256,14 +258,16 @@ void Board::updateCells()
 
 void Board::tap()
 {
-    Bug* bug2;
+
     for(Bug* bug : bugVector)
     {
         bug->move();
+        fight();
     }
-    fight();
-    updateCells();
 
+    //deleteDeadBugs();
+
+    updateCells();
 }
 void Board::eat(Bug *bug1, Bug *bug2)
 {
@@ -309,15 +313,16 @@ void Board::fight()
             }
         }
     }
-
 }
 
-void Board::displayLifeHistory(ostream& out) {
+void Board::displayLifeHistory(ostream& out)
+{
+    cout << endl;
     for (Bug *bug: bugVector)
     {
         if(dynamic_cast<Dizzler*>(bug))
         {
-            out << bug->getId() << "Dizzler" << " Path: ";
+            out << bug->getId() << " Dizzler" << " Path: ";
         }
         else
         {
@@ -366,7 +371,20 @@ void Board::deleteDeadBugs()
 
 bool Board::lastBugStanding()
 {
-    return bugVector.size() == 1;
+    int count = 0;
+    for(Bug* bug : bugVector)
+    {
+        if(bug->isAlive())
+        {
+            count++;
+        }
+
+        if(count == 1)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 void Board::runSimulation()
@@ -376,14 +394,14 @@ void Board::runSimulation()
     while(!gameOver)
     {
         tap();
-        displayAllCells();
+
+        //Wait for 1 second before repeating
+        this_thread::sleep_for(chrono::microseconds (1));
 
         if(lastBugStanding())
         {
             gameOver = true;
         }
-
-        //Wait for 1 second before repeating
-        this_thread::sleep_for(chrono::seconds (1));
+        displayLifeHistory(cout);
     }
 }

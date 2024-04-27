@@ -15,39 +15,44 @@ Dizzler::Dizzler(int id, int x, int y, Direction direction, int size, char type)
 
 void Dizzler::move()
 {
-    if (!dizzy) {
-        direction = static_cast<Direction>(rand() % 4);
-
-        if (hitWall())
+    if(this->alive)
+    {
+        if (!dizzy)
         {
-            dizzy = true;
+            direction = static_cast<Direction>(rand() % 4);
+
+            if (hitWall() && isWayBlocked())
+            {
+                dizzy = true;
+            }
+            else
+            {
+                switch (direction) {
+                    case Direction::North:
+                        position.second--;
+                        break;
+                    case Direction::East:
+                        position.first++;
+                        break;
+                    case Direction::South:
+                        position.second++;
+                        break;
+                    case Direction::West:
+                        position.first--;
+                        break;
+                }
+            }
         }
         else
         {
-            switch (direction) {
-                case Direction::North:
-                    position.second--;
-                    break;
-                case Direction::East:
-                    position.first++;
-                    break;
-                case Direction::South:
-                    position.second++;
-                    break;
-                case Direction::West:
-                    position.first--;
-                    break;
-            }
+            dizzy = false;
         }
-    }
-    else
-    {
-        dizzy = false;
-    }
 
+        addToPath(position.first, position.second);
+    }
 }
 
 bool Dizzler::hitWall() const
 {
-   return position.first < 0 || position.first >= 10 || position.second < 0 || position.second >= 10;
+   return position.first == 0 || position.first == 9 || position.second == 0 || position.second == 9;
 }
