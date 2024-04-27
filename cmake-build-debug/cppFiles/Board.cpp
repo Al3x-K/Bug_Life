@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <thread>
 
 Board::Board()
 {
@@ -314,7 +315,7 @@ void Board::displayLifeHistory(ostream& out) {
     {
         if(dynamic_cast<Dizzler*>(bug))
         {
-            out << bug->getId() << " Dizzler" << " Path: ";
+            out << bug->getId() << "Dizzler" << " Path: ";
         }
         else
         {
@@ -341,5 +342,46 @@ void Board::displayLifeHistory(ostream& out) {
             out << " Alive!";
         }
         out << endl;
+    }
+}
+
+void Board::deleteDeadBugs()
+{
+    auto it = bugVector.begin();
+    while(it != bugVector.end())
+    {
+        if(!(*it)->isAlive())
+        {
+            delete *it; //Free memory
+            it = bugVector.erase(it); //Remove dead bug from the vector
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+bool Board::lastBugStanding()
+{
+    return bugVector.size() == 1;
+}
+
+void Board::runSimulation()
+{
+    bool gameOver = false;
+
+    while(!gameOver)
+    {
+        tap();
+        displayAllCells();
+
+        if(lastBugStanding())
+        {
+            gameOver = true;
+        }
+
+        //Wait for 1 second before repeating
+        this_thread::sleep_for(chrono::seconds (1));
     }
 }

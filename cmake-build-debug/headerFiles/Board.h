@@ -29,10 +29,12 @@ public:
     void findBug(int bugId);
     void displayLifeHistory(ostream& out);
 
+    void deleteDeadBugs();
+    void runSimulation();
     void eat(Bug *bug1, Bug *bug2);
     void fight();
     void tap();
-
+    bool lastBugStanding();
 };
 
 
