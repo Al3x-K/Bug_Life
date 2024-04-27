@@ -271,30 +271,32 @@ void Board::tap()
 }
 void Board::eat(Bug *bug1, Bug *bug2)
 {
+    if(bug1->isAlive() && bug2->isAlive())
+    {
+        if(bug1->getSize() > bug2->getSize())
+        {
+            //Bug1 is the winner
+            bug1->setSize(bug1->getSize() + bug2->getSize());
+            bug2->setStatus(false);
+            bug2->setEatenBy(bug1->getId());
+        }
+        else if(bug2->getSize() > bug1->getSize())
+        {
+            //Bug2 is the winner
+            bug2->setSize(bug2->getSize() + bug1->getSize());
+            bug1->setStatus(false);
+            bug1->setEatenBy(bug2->getId());
+        }
+        else
+        {
+            //If bugs have same size
+            int winIndex = rand() % 2; //get random num (0 or 1)
+            Bug* winner = winIndex == 0 ? bug1 : bug2; // Select a random bug as the winner
+            Bug* loser = winIndex == 0 ? bug2 : bug1; // Select the other bug as the loser
 
-    if(bug1->getSize() > bug2->getSize())
-    {
-        //Bug1 is the winner
-        bug1->setSize(bug1->getSize() + bug2->getSize());
-        bug2->setStatus(false);
-        bug2->setEatenBy(bug1->getId());
-    }
-    else if(bug2->getSize() < bug1->getSize())
-    {
-        //Bug2 is the winner
-        bug2->setSize(bug2->getSize() + bug1->getSize());
-        bug1->setStatus(false);
-        bug1->setEatenBy(bug2->getId());
-    }
-    else
-    {
-        //If bugs have same size
-        int winIndex = rand() % 2; //get random num (0 or 1)
-        Bug* winner = winIndex == 0 ? bug1 : bug2; // Select a random bug as the winner
-        Bug* loser = winIndex == 0 ? bug2 : bug1; // Select the other bug as the loser
-
-        loser->setEatenBy(winner->getId());
-        loser->setStatus(false);
+            loser->setEatenBy(winner->getId());
+            loser->setStatus(false);
+        }
     }
 }
 
@@ -378,20 +380,19 @@ bool Board::lastBugStanding()
         {
             count++;
         }
-
-        if(count == 1)
-        {
-            return false;
-        }
     }
-    return true;
+    if(count == 1)
+    {
+        return true;
+    }
+    return false;
 }
 
 void Board::runSimulation()
 {
-    bool gameOver = false;
+    bool running = true;
 
-    while(!gameOver)
+    while(running)
     {
         tap();
 
@@ -400,8 +401,8 @@ void Board::runSimulation()
 
         if(lastBugStanding())
         {
-            gameOver = true;
+            running = false;
         }
-        displayLifeHistory(cout);
     }
+    displayLifeHistory(cout);
 }
