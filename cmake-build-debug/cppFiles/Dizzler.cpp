@@ -7,7 +7,7 @@
 #include <ctime>  //For srand
 
 Dizzler::Dizzler(int id, int x, int y, Direction direction, int size, char type)
-        : Bug(id,x,y,direction,size, type)
+        : Bug(id,x,y,direction,size, type), dizzy(false)
 {
     //Seed the random number generator
     srand(static_cast<unsigned int>(time(nullptr)));
@@ -15,22 +15,39 @@ Dizzler::Dizzler(int id, int x, int y, Direction direction, int size, char type)
 
 void Dizzler::move()
 {
-    direction = static_cast<Direction>(rand() % 4);
-    switch (direction)
-    {
-        case Direction::North:
-            position.second--; //Move up
-            break;
-        case Direction::East:
-            position.first++; //Move right
-            break;
-        case Direction::South:
-            position.second++; //Move down
-            break;
-        case Direction::West:
-            position.first--; //Move left
-            break;
+    if (!dizzy) {
+        direction = static_cast<Direction>(rand() % 4);
 
+        if (hitWall())
+        {
+            dizzy = true;
+        }
+        else
+        {
+            switch (direction) {
+                case Direction::North:
+                    position.second--;
+                    break;
+                case Direction::East:
+                    position.first++;
+                    break;
+                case Direction::South:
+                    position.second++;
+                    break;
+                case Direction::West:
+                    position.first--;
+                    break;
+            }
+        }
     }
-    addToPath(position.first, position.second);
+    else
+    {
+        dizzy = false;
+    }
+
+}
+
+bool Dizzler::hitWall() const
+{
+   return position.first < 0 || position.first >= 10 || position.second < 0 || position.second >= 10;
 }

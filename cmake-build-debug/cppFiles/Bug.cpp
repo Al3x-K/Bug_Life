@@ -2,7 +2,9 @@
 // Created by Asus on 10/04/2024.
 //
 
+#include <algorithm>
 #include "../headerFiles/Bug.h"
+#include "../headerFiles/Board.h"
 
 Bug::Bug(int id, int x, int y, Direction direction, int size, char type)
 : id(id),position(make_pair(x,y)),direction(direction), size(size), alive(true), type(type) {}
@@ -40,9 +42,8 @@ list<pair<int, int>> Bug::getPath() const
 
 int Bug::getEatenBy() const
 {
-    return eatenBy;
+    return eaterId;
 }
-
 
 //SET METHODS
 void Bug::setId(int bugId)
@@ -70,11 +71,15 @@ void Bug::addToPath(int x, int y)
     path.push_back(make_pair(x,y));
 }
 
-void Bug::setEatenBy(int id)
+void Bug::setStatus(bool alive)
 {
-    eatenBy = id;
+    this->alive = alive;
 }
 
+void Bug::setEatenBy(int eaterId)
+{
+    this->eaterId = eaterId;
+}
 
 //Different methods
 bool Bug::isAlive() const
@@ -112,12 +117,3 @@ bool Bug::isWayBlocked()
     return false;
 }
 
-void Bug::kill()
-{
-    alive = false;
-}
-
-void Bug::resurrect()
-{
-    alive = true;
-}

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <list>
 #include <utility>
+#include <vector>
 
 using namespace std;
 
@@ -22,7 +23,7 @@ protected:
     bool alive;
     list<pair<int, int>> path;
     char type;
-    int eatenBy = -1;
+    int eaterId;
 
 public:
     Bug(int id, int x, int y, Direction direction, int size, char type);
@@ -40,12 +41,11 @@ public:
     void setId(int bugId);
     void setPosition(pair<int, int> p);
     void setDirection(Direction d);
+    void setStatus(bool alive);
     void setSize(int s);
     void addToPath(int x, int y);
     void setEatenBy(int id);
 
-    void kill();
-    void resurrect();
     virtual void move() = 0;
     bool isWayBlocked();
 };

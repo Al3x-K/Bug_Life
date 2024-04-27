@@ -99,6 +99,7 @@ void Board::initializeBugVector()
         }
     }
     file.close();
+    updateCells();
 }
 
 void Board::displayAllBugs()
@@ -189,7 +190,6 @@ void Board::findBug(int bugId)
 
 void Board::displayAllCells()
 {
-
     for (int y = 0; y < 10; ++y) //rows
     {
         for (int x = 0; x < 10; ++x) //columns
@@ -213,7 +213,7 @@ void Board::displayAllCells()
                     {
                         cout << ", ";
                     }
-                    if(dynamic_cast<Dizzler*>(bug))
+                    if(bug->getType() == 'D')
                     {
                         cout <<"Dizzler " << bug->getId();
                     }
@@ -233,14 +233,80 @@ void Board::displayAllCells()
         }
     }
 }
+void Board::updateCells()
+{
+    cells.clear(); //clear the map before updating
 
+    for(Bug* bug : bugVector)
+    {
+        //get the position of the bug
+        pair<int,int> position = bug->getPosition();
+        //calculate the cell coordinates based on the bug's position
+        //max(0, min(position.*,9)) ensures that the position is within the bounds of the board
+        int cellX = max(0, min(position.first,9));
+        int cellY = max(0, min(position.second,9));
+
+        //insert the bug into corresponding cell in the cells map
+        cells[{cellX,cellY}].push_back(bug);
+    }
+}
 
 void Board::tap()
 {
+    Bug* bug2;
     for(Bug* bug : bugVector)
     {
         bug->move();
     }
+    fight();
+    updateCells();
+
+}
+void Board::eat(Bug *bug1, Bug *bug2)
+{
+
+    if(bug1->getSize() > bug2->getSize())
+    {
+        //Bug1 is the winner
+        bug1->setSize(bug1->getSize() + bug2->getSize());
+        bug2->setStatus(false);
+        bug2->setEatenBy(bug1->getId());
+    }
+    else if(bug2->getSize() < bug1->getSize())
+    {
+        //Bug2 is the winner
+        bug2->setSize(bug2->getSize() + bug1->getSize());
+        bug1->setStatus(false);
+        bug1->setEatenBy(bug2->getId());
+    }
+    else
+    {
+        //If bugs have same size
+        int winIndex = rand() % 2; //get random num (0 or 1)
+        Bug* winner = winIndex == 0 ? bug1 : bug2; // Select a random bug as the winner
+        Bug* loser = winIndex == 0 ? bug2 : bug1; // Select the other bug as the loser
+
+        loser->setEatenBy(winner->getId());
+        loser->setStatus(false);
+    }
+}
+
+void Board::fight()
+{
+    for(const auto& cell : cells)
+    {
+        const auto& bugsInCell = cell.second;
+        if(bugsInCell.size() > 1)
+        {
+            Bug* bug1 = bugsInCell.front();
+            Bug* bug2 = bugsInCell.back();
+            if(bug1 != bug2)
+            {
+                eat(bug1,bug2);
+            }
+        }
+    }
+
 }
 
 void Board::displayLifeHistory(ostream& out) {
@@ -266,9 +332,12 @@ void Board::displayLifeHistory(ostream& out) {
         } else {
             out << "No path recorded";
         }
-        if (!bug->isAlive()) {
+        if (!bug->isAlive())
+        {
             out << " Eaten by " << bug->getEatenBy();
-        } else {
+        }
+        else
+        {
             out << " Alive!";
         }
         out << endl;

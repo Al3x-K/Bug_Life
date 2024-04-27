@@ -9,19 +9,21 @@ int main()
 
     board.initializeBugVector();
     board.displayAllBugs();
-    cout << endl;
-    //board.displayAllCells();
-    cout << endl;
+
     board.tap();
     board.tap();
-    board.displayAllCells();
-    board.displayAllBugs();
+    board.tap();
+    board.tap();
+    board.tap();
+    board.tap();
+
     cout << endl;
     board.displayLifeHistory(cout);
     ofstream out("bugs_life_history_date_time.out.txt");
-    board.displayLifeHistory(out);
-    //board.displayAllCells();
     cout << endl;
-    //board.findBug(101);
+    board.displayAllBugs();
+    board.displayLifeHistory(out);
+
+    board.findBug(113);
     return 0;
 }
