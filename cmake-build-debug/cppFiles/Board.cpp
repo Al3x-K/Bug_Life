@@ -155,11 +155,14 @@ void Board::findBug(int bugId)
             //bug with specified id is found
             bugFound = true;
             cout <<  bug->getId() << " ";
-            if(dynamic_cast<Dizzler*>(bug))
+            if(bug->getType() == 'D')
             {
                 cout <<"Dizzler ";
             }
-            cout << (dynamic_cast<Crawler*>(bug) ? "Crawler" : "Hopper") << " ";
+            else
+            {
+                cout << (dynamic_cast<Crawler*>(bug) ? "Crawler" : "Hopper") << " ";
+            }
             cout << "(" << bug->getPosition().first << "," << bug->getPosition().second << ") ";
             cout << bug->getSize();
             switch (bug->getDirection())
@@ -181,7 +184,6 @@ void Board::findBug(int bugId)
             cout << (bug->isAlive() ? "Alive" : "Dead");
             cout << endl;
         }
-        break;
     }
     if(!bugFound)
     {

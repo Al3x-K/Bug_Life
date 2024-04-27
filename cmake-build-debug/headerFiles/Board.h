@@ -31,7 +31,7 @@ public:
 
     void deleteDeadBugs();
     void runSimulation();
-    void eat(Bug *bug1, Bug *bug2);
+    static void eat(Bug *bug1, Bug *bug2);
     void fight();
     void tap();
     bool lastBugStanding();
