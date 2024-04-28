@@ -1,3 +1,4 @@
+
 //
 // Created by Asus on 17/04/2024.
 //
@@ -371,7 +372,7 @@ void Board::deleteDeadBugs()
     }
 }
 
-bool Board::lastBugStanding()
+int Board::aliveBugs() const
 {
     int count = 0;
     for(Bug* bug : bugVector)
@@ -381,28 +382,49 @@ bool Board::lastBugStanding()
             count++;
         }
     }
-    if(count == 1)
-    {
-        return true;
-    }
-    return false;
+    return count;
 }
 
 void Board::runSimulation()
 {
     bool running = true;
-
+    auto startTime = std::chrono::steady_clock::now(); // Get the current time
     while(running)
     {
         tap();
 
+        auto currentTime = std::chrono::steady_clock::now();
+        auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - startTime).count();
+        if (elapsedTime >= 100)
+        {
+            // If 100 seconds have passed, end the simulation
+            running = false;
+        }
         //Wait for 1 second before repeating
-        this_thread::sleep_for(chrono::microseconds (1));
+        this_thread::sleep_for(chrono::milliseconds(1000));
 
-        if(lastBugStanding())
+        if(aliveBugs() == 1)
         {
             running = false;
         }
     }
     displayLifeHistory(cout);
+}
+
+vector<Bug *> &Board::getBugVector()
+{
+    return bugVector;
+}
+
+list<pair<char, pair<int, int>>> Board::getPosOfAlive() const
+{
+    list<pair<char, pair<int, int>>> pos;
+    for(const Bug* bug : bugVector)
+    {
+        if(bug->isAlive())
+        {
+            pos.emplace_back(bug->getType(), make_pair(bug->getPosition().first, bug->getPosition().second));
+        }
+    }
+    return pos;
 }

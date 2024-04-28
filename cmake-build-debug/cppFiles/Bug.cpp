@@ -1,3 +1,4 @@
+
 //
 // Created by Asus on 10/04/2024.
 //
@@ -7,7 +8,7 @@
 #include "../headerFiles/Board.h"
 
 Bug::Bug(int id, int x, int y, Direction direction, int size, char type)
-: id(id),position(make_pair(x,y)),direction(direction), size(size), alive(true), type(type) {}
+        : id(id),position(make_pair(x,y)),direction(direction), size(size), alive(true), type(type) {}
 
 //GET METHODS
 int Bug::getId() const
@@ -116,5 +117,3 @@ bool Bug::isWayBlocked()
     //Bug is not at any edge
     return false;
 }
-
-

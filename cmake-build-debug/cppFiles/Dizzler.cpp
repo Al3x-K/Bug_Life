@@ -1,3 +1,4 @@
+
 //
 // Created by Asus on 24/04/2024.
 //
@@ -54,5 +55,5 @@ void Dizzler::move()
 
 bool Dizzler::hitWall() const
 {
-   return position.first == 0 || position.first == 9 || position.second == 0 || position.second == 9;
+    return position.first == 0 || position.first == 9 || position.second == 0 || position.second == 9;
 }

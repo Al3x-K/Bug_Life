@@ -1,3 +1,4 @@
+
 //
 // Created by Asus on 10/04/2024.
 //
@@ -7,7 +8,7 @@
 #include <ctime>  //For srand
 
 Crawler::Crawler(int id, int x, int y, Direction direction, int size, char type)
-: Bug(id,x,y,direction,size, type)
+        : Bug(id,x,y,direction,size, type)
 {
     //Seed the random number generator
     srand(static_cast<unsigned int>(time(nullptr)));

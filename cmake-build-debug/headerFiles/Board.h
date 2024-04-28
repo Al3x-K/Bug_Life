@@ -1,3 +1,4 @@
+
 //
 // Created by Asus on 17/04/2024.
 //
@@ -28,13 +29,15 @@ public:
     void updateCells();
     void findBug(int bugId);
     void displayLifeHistory(ostream& out);
+    vector<Bug*>& getBugVector();
 
     void deleteDeadBugs();
     void runSimulation();
     static void eat(Bug *bug1, Bug *bug2);
     void fight();
     void tap();
-    bool lastBugStanding();
+    int aliveBugs() const;
+    list<pair<char,pair<int,int>>> getPosOfAlive() const;
 };
 
 

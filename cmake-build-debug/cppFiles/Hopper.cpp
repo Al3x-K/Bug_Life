@@ -1,3 +1,4 @@
+
 //
 // Created by Asus on 17/04/2024.
 //
@@ -7,7 +8,7 @@
 #include <ctime> //For srand
 
 Hopper::Hopper(int id, int x, int y, Direction direction, int size, char type, int hopLength)
-: Bug(id, x, y, direction, size, type), hopLength(hopLength)
+        : Bug(id, x, y, direction, size, type), hopLength(hopLength)
 {
     srand(time(nullptr));
 }
