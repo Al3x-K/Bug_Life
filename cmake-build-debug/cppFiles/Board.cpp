@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <thread>
+#include <SFML/Graphics.hpp>
 
 Board::Board()
 {
@@ -84,6 +85,7 @@ void Board::initializeBugVector()
             bugVector.push_back(dizzler);
             dizzler->addToPath(x,y);
         }
+
         else if(type =='H')
         {
             if(!(iss >> hopLength))
@@ -355,23 +357,6 @@ void Board::displayLifeHistory(ostream& out)
     }
 }
 
-void Board::deleteDeadBugs()
-{
-    auto it = bugVector.begin();
-    while(it != bugVector.end())
-    {
-        if(!(*it)->isAlive())
-        {
-            delete *it; //Free memory
-            it = bugVector.erase(it); //Remove dead bug from the vector
-        }
-        else
-        {
-            ++it;
-        }
-    }
-}
-
 int Board::aliveBugs() const
 {
     int count = 0;
@@ -411,20 +396,112 @@ void Board::runSimulation()
     displayLifeHistory(cout);
 }
 
-vector<Bug *> &Board::getBugVector()
+void Board::runSimulationSFML()
 {
-    return bugVector;
-}
+    srand(time(NULL));
+    sf::RenderWindow window(sf::VideoMode(600, 600), "Bug's Life");
 
-list<pair<char, pair<int, int>>> Board::getPosOfAlive() const
-{
-    list<pair<char, pair<int, int>>> pos;
-    for(const Bug* bug : bugVector)
+    list<sf::CircleShape> bugsToDraw;
+    sf::CircleShape player(20);
+    player.setPosition(105,105);
+    player.setFillColor(sf::Color::Red);
+    player.setOutlineColor(sf::Color::Black);
+    player.setOutlineThickness(1);
+
+
+    vector<sf::RectangleShape> background;
+    for (int y = 0; y < 10; y++)
     {
-        if(bug->isAlive())
+        for (int x = 0; x < 10; x++)
         {
-            pos.emplace_back(bug->getType(), make_pair(bug->getPosition().first, bug->getPosition().second));
+            sf::RectangleShape cell(sf::Vector2f(50, 50));
+            cell.setFillColor(sf::Color::White);
+            cell.setPosition(50 + x * 50, 50 + y * 50);
+            cell.setOutlineColor(sf::Color::Black);
+            cell.setOutlineThickness(1);
+            background.push_back(cell);
         }
     }
-    return pos;
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+            if (event.type == sf::Event::KeyReleased)
+            {
+                int x = player.getPosition().x;
+                int y = player.getPosition().y;
+
+                if (event.key.code == sf::Keyboard::Up)
+                {
+                    if (y > 100)
+                        player.setPosition(x, y - 50);
+                    tap();
+                }
+                if (event.key.code == sf::Keyboard::Down)
+                {
+                    if (y < 500)
+                        player.setPosition(x, y + 50);
+                    tap();
+                }
+                if (event.key.code == sf::Keyboard::Left)
+                {
+                    if (x > 100)
+                        player.setPosition(x - 50, y);
+                    tap();
+                }
+                if (event.key.code == sf::Keyboard::Right)
+                {
+                    if (x < 500)
+                        player.setPosition(x + 50, y);
+                    tap();
+                }
+
+            }
+        }
+        window.clear(sf::Color::White);
+
+        bugsToDraw.push_back(player);
+
+        for (Bug* bug: bugVector)
+        {
+            if(bug->isAlive())
+            {
+                sf::CircleShape bugShape(20);
+                if (bug->getType() == 'C')
+                {
+                    bugShape.setFillColor(sf::Color::Magenta);
+                }
+                else if (bug->getType() == 'H')
+                {
+                    bugShape.setFillColor(sf::Color::Green);
+                }
+                else if (bug->getType() == 'D')
+                {
+                    bugShape.setFillColor(sf::Color::Blue);
+                }
+                bugShape.setPosition(55 + bug->getPosition().first * 50, 55 + bug->getPosition().second * 50);
+                bugShape.setOutlineColor(sf::Color::Black);
+                bugShape.setOutlineThickness(1);
+                bugsToDraw.push_back(bugShape);
+            }
+        }
+        for (sf::RectangleShape bg:background)
+        {
+            window.draw(bg);
+        }
+
+        for (sf::CircleShape bug : bugsToDraw)
+        {
+            window.draw(bug);
+        }
+        window.display();
+        bugsToDraw.clear();
+    }
 }

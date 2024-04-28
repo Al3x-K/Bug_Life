@@ -29,15 +29,13 @@ public:
     void updateCells();
     void findBug(int bugId);
     void displayLifeHistory(ostream& out);
-    vector<Bug*>& getBugVector();
 
-    void deleteDeadBugs();
     void runSimulation();
     static void eat(Bug *bug1, Bug *bug2);
     void fight();
     void tap();
     int aliveBugs() const;
-    list<pair<char,pair<int,int>>> getPosOfAlive() const;
+    void runSimulationSFML();
 };
 
 

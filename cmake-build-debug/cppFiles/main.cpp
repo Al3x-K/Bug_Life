@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include "../headerFiles/Board.h"
-#include "../headerFiles/GUI.h"
 
 using namespace std;
 
@@ -10,8 +9,6 @@ void displayMenu();
 int main()
 {
     Board board;
-
-    GUI gui(board);
 
     int choice;
     int id;
@@ -48,7 +45,8 @@ int main()
                 board.runSimulation();
                 break;
             case 8:
-                gui.run();
+                board.initializeBugVector();
+                board.runSimulationSFML();
                 break;
             case 9:
                 ofstream out("bugs_life_history_date_time.out.txt");
