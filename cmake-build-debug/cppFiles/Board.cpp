@@ -4,6 +4,7 @@
 //
 
 #include "../headerFiles/Board.h"
+#include "../headerFiles/SuperBug.h"
 
 
 #include <iostream>
@@ -85,7 +86,6 @@ void Board::initializeBugVector()
             bugVector.push_back(dizzler);
             dizzler->addToPath(x,y);
         }
-
         else if(type =='H')
         {
             if(!(iss >> hopLength))
@@ -123,6 +123,10 @@ void Board::displayAllBugs()
         else if(bug->getType() =='D')
         {
             cout << " Dizzler ";
+        }
+        else if(bug->getType() =='S')
+        {
+            cout << " SuperBug ";
         }
         cout << "(" << bug->getPosition().first << "," << bug->getPosition().second << ") ";
         cout << bug->getSize();
@@ -162,6 +166,10 @@ void Board::findBug(int bugId)
             if(bug->getType() == 'D')
             {
                 cout <<"Dizzler ";
+            }
+            else if(bug->getType() =='S')
+            {
+                cout << "SuperBug ";
             }
             else
             {
@@ -225,6 +233,10 @@ void Board::displayAllCells()
                     {
                         cout <<"Dizzler " << bug->getId();
                     }
+                    else if(bug->getType() == 'S')
+                    {
+                        cout << " SuperBug ";
+                    }
                     else
                     {
                         cout << (dynamic_cast<Crawler *>(bug) ? "Crawler" : "Hopper") << " " << bug->getId();
@@ -264,11 +276,18 @@ void Board::tap()
 
     for(Bug* bug : bugVector)
     {
-        bug->move();
-        fight();
+        if(bug->getType() == 'S')
+        {
+             fight();
+        }
+        else
+        {
+            bug->move();
+            fight();
+        }
+
     }
 
-    //deleteDeadBugs();
 
     updateCells();
 }
@@ -328,6 +347,10 @@ void Board::displayLifeHistory(ostream& out)
         if(dynamic_cast<Dizzler*>(bug))
         {
             out << bug->getId() << " Dizzler" << " Path: ";
+        }
+        if(dynamic_cast<SuperBug*>(bug))
+        {
+            out << bug->getId() << " SuperBug" << " Path: ";
         }
         else
         {
@@ -401,13 +424,9 @@ void Board::runSimulationSFML()
     srand(time(NULL));
     sf::RenderWindow window(sf::VideoMode(600, 600), "Bug's Life");
 
+    SuperBug* player = new SuperBug(115, 1, 1, static_cast<Direction>(2), 7, 'S');
+    bugVector.push_back(player);
     list<sf::CircleShape> bugsToDraw;
-    sf::CircleShape player(20);
-    player.setPosition(105,105);
-    player.setFillColor(sf::Color::Red);
-    player.setOutlineColor(sf::Color::Black);
-    player.setOutlineThickness(1);
-
 
     vector<sf::RectangleShape> background;
     for (int y = 0; y < 10; y++)
@@ -435,40 +454,42 @@ void Board::runSimulationSFML()
             }
             if (event.type == sf::Event::KeyReleased)
             {
-                int x = player.getPosition().x;
-                int y = player.getPosition().y;
+                int x = player->shape.getPosition().x;
+                int y = player->shape.getPosition().y;
 
                 if (event.key.code == sf::Keyboard::Up)
                 {
                     if (y > 100)
-                        player.setPosition(x, y - 50);
+                        player->setDirection(Direction::North);
+                    player->move();
                     tap();
                 }
                 if (event.key.code == sf::Keyboard::Down)
                 {
                     if (y < 500)
-                        player.setPosition(x, y + 50);
+                        player->setDirection(Direction::South);
+                    player->move();
                     tap();
                 }
                 if (event.key.code == sf::Keyboard::Left)
                 {
                     if (x > 100)
-                        player.setPosition(x - 50, y);
+                        player->setDirection(Direction::East);
+                    player->move();
                     tap();
                 }
                 if (event.key.code == sf::Keyboard::Right)
                 {
                     if (x < 500)
-                        player.setPosition(x + 50, y);
+                        player->setDirection(Direction::West);
+                    player->move();
                     tap();
                 }
 
             }
         }
         window.clear(sf::Color::White);
-
-        bugsToDraw.push_back(player);
-
+        
         for (Bug* bug: bugVector)
         {
             if(bug->isAlive())
@@ -485,6 +506,10 @@ void Board::runSimulationSFML()
                 else if (bug->getType() == 'D')
                 {
                     bugShape.setFillColor(sf::Color::Blue);
+                }
+                else if (bug->getType() == 'S')
+                {
+                    bugShape.setFillColor(sf::Color::Red);
                 }
                 bugShape.setPosition(55 + bug->getPosition().first * 50, 55 + bug->getPosition().second * 50);
                 bugShape.setOutlineColor(sf::Color::Black);

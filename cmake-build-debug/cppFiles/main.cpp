@@ -47,6 +47,7 @@ int main()
             case 8:
                 board.initializeBugVector();
                 board.runSimulationSFML();
+                board.displayLifeHistory(cout);
                 break;
             case 9:
                 ofstream out("bugs_life_history_date_time.out.txt");
@@ -71,6 +72,6 @@ void displayMenu()
     cout << "5. Display Life History of all Bugs" << endl;
     cout << "6. Display all Cells listing their Bugs " << endl;
     cout << "7. Run simulation (generates a Tap every second)" << endl;
-    cout << "8. Run simulation with GUI(generates a Tap every second)" << endl;
+    cout << "8. Run simulation with GUI" << endl;
     cout << "9. Exit (Write Life History to file)" << endl;
 }

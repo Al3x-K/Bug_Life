@@ -14,6 +14,8 @@ add_executable(Bug_Life_C__ cmake-build-debug/cppFiles/main.cpp
         cmake-build-debug/headerFiles/Board.h
         cmake-build-debug/cppFiles/Dizzler.cpp
         cmake-build-debug/headerFiles/Dizzler.h
+        cmake-build-debug/cppFiles/SuperBug.cpp
+        cmake-build-debug/headerFiles/SuperBug.h
 )
 
 set(SFML_STATIC_LIBRARIES TRUE)
