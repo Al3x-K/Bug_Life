@@ -344,11 +344,11 @@ void Board::displayLifeHistory(ostream& out)
     cout << endl;
     for (Bug *bug: bugVector)
     {
-        if(dynamic_cast<Dizzler*>(bug))
+        if(bug->getType() == 'D')
         {
             out << bug->getId() << " Dizzler" << " Path: ";
         }
-        if(dynamic_cast<SuperBug*>(bug))
+        else if(bug->getType() == 'S')
         {
             out << bug->getId() << " SuperBug" << " Path: ";
         }
@@ -489,7 +489,7 @@ void Board::runSimulationSFML()
             }
         }
         window.clear(sf::Color::White);
-        
+
         for (Bug* bug: bugVector)
         {
             if(bug->isAlive())
